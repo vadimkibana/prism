@@ -978,12 +978,45 @@
 //     : valueExpression
 //     ;
 
+// - Comments
+//   - Single line
+//   - Multi line
+// - Boolean
+// - Number
+//   - Integer
+//   - Float
+//   - Hex
+// - String
+//   - Single quoted
+//   - Triple quoted
+// - Source
+//   - Cluster
+//   - Index pattern
+// - Params (named, positional, unnamed)
+// - Column
+//   - Nested identifiers
+//   - Backtick quoted identifiers
+//   - Params inside identifiers
+// - Lists
+// - Function
+//   - Function with arguments
+//   - Function with star
+//   - Operators
+//     - Unary (+, -, NOT, NOT NULL, NULL)
+//     - Binary (arithmetic, WHERE, AS, LIKE, RLIKE, NOT LIKE, NOT RLIKE)
+// - Command
+//   - Processing command names
+//   - Source command names
+//   - Command option names
+
 Prism.languages.esql = {
+	// Double slash single line comments
 	comment: {
-		// Double slash single line comments
 		pattern: /(^|[^\\])\/\/.*/,
 		greedy: true
 	},
+
+	// Slash-star multiline comments
 	'multiline-comment': {
 		pattern: /\/\*[\s\S]*?\*\//,
 		greedy: true,
@@ -991,8 +1024,19 @@ Prism.languages.esql = {
 			'comment',
 		]
 	},
+
+	// Single quoted strings
 	'string': {
 		pattern: /"(?:\\.|[^\\"])*"/,
 		greedy: true
+	},
+
+	// Triple quoted strings
+	'triple-quoted-string': {
+		pattern: /"""(?:\\.|[^\\"])*"""/,
+		greedy: true,
+		alias: [
+			'string',
+		]
 	},
 };
