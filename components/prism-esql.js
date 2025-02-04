@@ -985,7 +985,6 @@
 // - Number
 //   - Integer
 //   - Float
-//   - Hex
 // - String
 //   - Single quoted
 //   - Triple quoted
@@ -1164,6 +1163,26 @@ var functions = [
 	'WEIGHTED_AVG',
 ];
 
+var keywords = [
+	'BY',
+	'ASC',
+	'DESC',
+	'FIRST',
+	'LAST',
+];
+
+var binaryOperators = [
+	'AND',
+	'OR',
+	'IS',
+	'IN',
+	'AS',
+	'LIKE',
+	'RLIKE',
+	'RLIKE',
+	'WHERE',
+];
+
 Prism.languages.esql = {
 	// Double slash single line comments
 	comment: {
@@ -1195,15 +1214,44 @@ Prism.languages.esql = {
 		]
 	},
 
-	keyword: {
+	command: {
 		pattern: new RegExp('\\b(?:' + commands.join('|') + ')\\b', 'i'),
+		alias: [
+			'keyword',
+		],
+	},
+
+	keyword: {
+		pattern: new RegExp('\\b(?:' + keywords.join('|') + ')\\b', 'i'),
+	},
+
+
+	'binary-operator': {
+		pattern: new RegExp('\\b(?:' + binaryOperators.join('|') + ')\\b', 'i'),
+		alias: [
+			'keyword',
+		],
 	},
 
 	function: {
 		pattern: new RegExp('\\b(?:' + functions.join('|') + ')\\b', 'i'),
 	},
 
-	boolean: /\b(?:true|false)\b/i,
+	boolean: /\b(?:false|true)\b/i,
+
+	integer: {
+		pattern: /\b\d+\b/,
+		alias: [
+			'number'
+		],
+	},
+
+	float: {
+		pattern: /\b(?:\d{1,50}\.?\d{0,50}|\.\d{1,50})(?:[eE][+-]?\d+)?\b/,
+		alias: [
+			'number'
+		],
+	},
 
 	// Mark "|" and "," as punctuation
 	punctuation: /[|,]/,
